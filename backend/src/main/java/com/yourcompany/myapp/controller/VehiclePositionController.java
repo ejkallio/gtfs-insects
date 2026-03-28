@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,12 @@ import com.google.transit.realtime.GtfsRealtime.FeedMessage;
 public class VehiclePositionController {
 
     private static final String GTFS_REALTIME_URL = "https://opendatavilkku.mattersoft.fi/rtapi/gtfsrealtime/v1.0/feed/vehicleposition";
-    private static final String API_USERNAME = System.getenv("GTFS_USER");
-    private static final String API_PASSWORD = System.getenv("GTFS_PASSWORD");
+
+    @Value("${gtfs.username}")
+    private String apiUsername;
+
+    @Value("${gtfs.password}")
+    private String apiPassword;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -33,7 +38,7 @@ public class VehiclePositionController {
     public ResponseEntity<?> getVehiclePositions() {
         try {
             // Create Basic Auth header
-            String credentials = API_USERNAME + ":" + API_PASSWORD;
+            String credentials = apiUsername + ":" + apiPassword;
             String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes());
             
             HttpHeaders headers = new HttpHeaders();
