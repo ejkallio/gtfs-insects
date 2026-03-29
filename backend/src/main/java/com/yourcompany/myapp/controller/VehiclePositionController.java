@@ -47,7 +47,12 @@ public class VehiclePositionController {
             HttpEntity<?> entity = new HttpEntity<>(headers);
             
             // Fetch from external API as byte array
-            ResponseEntity<byte[]> response = restTemplate.exchange(GTFS_REALTIME_URL, org.springframework.http.HttpMethod.GET, entity, byte[].class);
+            ResponseEntity<byte[]> response = restTemplate.exchange(
+                GTFS_REALTIME_URL, 
+                org.springframework.http.HttpMethod.GET, 
+                entity, 
+                byte[].class
+            );
             
             if (response.getBody() == null) {
                 return ResponseEntity.noContent().build();
