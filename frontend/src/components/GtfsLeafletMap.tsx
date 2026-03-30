@@ -1,7 +1,7 @@
 import 'leaflet/dist/leaflet.css'
 import { useMemo } from 'react'
-import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet'
-
+import { MapContainer, TileLayer, CircleMarker, Popup, Marker } from 'react-leaflet'
+import { AntGif } from './AntGif'
 
 type GtfsStop = {
   id: string
@@ -56,11 +56,12 @@ export function GtfsLeafletMap({ vehicles, sampleStops, centerLat, centerLon }: 
                     </CircleMarker>
                   ))}
                   {vehicles.map((vehicle) => (
-                    <CircleMarker
+                    <Marker
                       key={vehicle.id}
-                      center={[vehicle.latitude, vehicle.longitude]}
-                      radius={6}
-                      pathOptions={{ color: '#2ecc71', fillColor: '#27ae60', fillOpacity: 0.8 }}
+                      position={[vehicle.latitude, vehicle.longitude]}
+                      icon={AntGif}
+                      //radius={6}
+                      //pathOptions={{ color: '#2ecc71', fillColor: '#27ae60', fillOpacity: 0.8 }}
                     >
                       <Popup>
                         <strong>{vehicle.label}</strong> (Route {vehicle.routeId})<br />
@@ -71,7 +72,7 @@ export function GtfsLeafletMap({ vehicles, sampleStops, centerLat, centerLon }: 
                         Status: {vehicle.currentStatus}<br />
                         {vehicle.latitude.toFixed(6)}, {vehicle.longitude.toFixed(6)}
                       </Popup>
-                    </CircleMarker>
+                    </Marker>
                   ))}
                 </MapContainer>
                 <p>Red dots: GTFS stops | Green dots: Live vehicle positions</p>
